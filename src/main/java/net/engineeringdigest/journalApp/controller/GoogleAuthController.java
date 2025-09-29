@@ -46,7 +46,7 @@ public class GoogleAuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private JwUtils jwtUtils;
+    private JwUtils jwUtils;
 
     @GetMapping("/callback")
     public ResponseEntity<?> handleGoogleCallback(@RequestParam String code) {
@@ -79,7 +79,8 @@ public class GoogleAuthController {
                     user.setRoles(Arrays.asList("USER"));
                     userRepository.save(user);
                 }
-                String jwtToken = jwtUtils.generateToken(email);
+
+                String jwtToken = jwUtils.generateToken(email);
                 return ResponseEntity.ok(Collections.singletonMap("token", jwtToken));
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
